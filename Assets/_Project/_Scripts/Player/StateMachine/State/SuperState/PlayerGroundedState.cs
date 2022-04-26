@@ -4,13 +4,18 @@ using UnityEngine;
 
 public abstract class PlayerGroundedState : PlayerState
 {
-    protected PlayerGroundedState(Player player, PlayerStateMachine stateMachine, string animationBool) : base(player, stateMachine, animationBool)
+    protected PlayerLocomotion locomotion;
+    protected PlayerInputHandler inputHandler;
+
+    protected PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerDataSO playerData, string animationBool) : base(player, stateMachine, playerData, animationBool)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
+        locomotion = player.Locomotion;
+        inputHandler = player.InputHandler;
     }
 
     public override void Exit()

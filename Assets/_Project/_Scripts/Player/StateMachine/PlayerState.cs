@@ -6,12 +6,14 @@ public abstract class PlayerState
 {
     protected Player player;
     protected PlayerStateMachine stateMachine;
+    protected PlayerDataSO playerData;
     protected string animationBool;
 
-    public PlayerState(Player player, PlayerStateMachine stateMachine, string animationBool)
+    public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerDataSO playerData, string animationBool)
     {
         this.player = player;
         this.stateMachine = stateMachine;
+        this.playerData = playerData;
         this.animationBool = animationBool;
     }
 

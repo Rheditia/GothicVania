@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(Player player, PlayerStateMachine stateMachine, string animationBool) : base(player, stateMachine, animationBool)
+    public PlayerMoveState(Player player, PlayerStateMachine stateMachine, PlayerDataSO playerData, string animationBool) : base(player, stateMachine, playerData, animationBool)
     {
     }
 
@@ -21,10 +21,16 @@ public class PlayerMoveState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if(Mathf.Abs(inputHandler.MoveInput.x) < Mathf.Epsilon)
+        {
+            stateMachine.ChangeState(player.IdleState);
+        }
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        locomotion.SetHorizontalVelocity(playerData.MoveSpeed, inputHandler.MoveInput.x);
     }
 }
