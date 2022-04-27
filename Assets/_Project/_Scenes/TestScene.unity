@@ -1071,12 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f0fb596de04f040847c207c893c330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckRadius: 0.4
-  groundCheckOffset: {x: 0, y: -1.05, z: 0}
-  platformLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  jumpSpeed: 15
 --- !u!114 &1611352986
 MonoBehaviour:
   m_ObjectHideFlags: 0

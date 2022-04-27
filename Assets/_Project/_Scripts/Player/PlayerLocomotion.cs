@@ -7,22 +7,9 @@ public class PlayerLocomotion : MonoBehaviour
 {
     Rigidbody2D myRigidbody;
 
-    PlayerInputHandler inputHandler;
-    [SerializeField] float groundCheckRadius = 0f;
-    [SerializeField] Vector3 groundCheckOffset;
-    [SerializeField] LayerMask platformLayer;
-    [SerializeField] float jumpSpeed = 0f;
-
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-
-        inputHandler = GetComponent<PlayerInputHandler>();
-    }
-
-    private void FixedUpdate()
-    {
-        if (inputHandler.JumpInput) { Jump(); }
     }
 
     public void SetHorizontalVelocity(float velocity, float horizontalInput)
@@ -38,21 +25,11 @@ public class PlayerLocomotion : MonoBehaviour
         transform.localScale = new Vector3(Mathf.Sign(myRigidbody.velocity.x), 1, 1);
     }
 
-    private void Jump()
+    public void SetVerticalVelocity(float velocity)
     {
-        if (!CheckIfGrounded()) { return; }
-        Vector2 newVelocity = new Vector2(myRigidbody.velocity.x, jumpSpeed);
+        Vector2 newVelocity = new Vector2(myRigidbody.velocity.x, velocity);
         myRigidbody.velocity = newVelocity;
     }
 
-    private bool CheckIfGrounded()
-    {
-        return Physics2D.OverlapCircle(transform.position + groundCheckOffset, groundCheckRadius, platformLayer);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundCheckRadius);
-    }
+    public float VerticalVelocity => myRigidbody.velocity.y;
 }

@@ -7,8 +7,16 @@ public class PlayerDataSO : ScriptableObject
 {
     [Header("Locomotion")]
     [SerializeField] float moveSpeed = 0f;
-    public float MoveSpeed
-    {
-        get { return moveSpeed; }
-    }
+    [SerializeField] float jumpSpeed = 0f;
+
+    [Header("Checks")]
+    [SerializeField] float groundCheckRadius = 0f;
+    [SerializeField] Vector3 groundCheckOffset;
+    [SerializeField] LayerMask platformLayer;
+
+    public float MoveSpeed => moveSpeed;
+    public float JumpSpeed => jumpSpeed;
+    public float GroundCheckRadius => groundCheckRadius;
+    public Vector3 GroundCheckOffset => groundCheckOffset;
+    public LayerMask PlatformLayer => platformLayer;
 }

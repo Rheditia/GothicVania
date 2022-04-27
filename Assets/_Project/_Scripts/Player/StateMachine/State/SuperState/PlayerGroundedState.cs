@@ -26,6 +26,15 @@ public abstract class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if (inputHandler.JumpInput)
+        {
+            stateMachine.ChangeState(player.JumpState);
+        }
+        else if (!player.CheckIfGrounded())
+        {
+            stateMachine.ChangeState(player.InAirState);
+        }
     }
 
     public override void PhysicsUpdate()
