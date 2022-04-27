@@ -22,6 +22,13 @@ public class Player : MonoBehaviour
     public PlayerLocomotion Locomotion { get; private set; }
     #endregion
 
+    #region Variables
+    private int jumpCount;
+    public bool isFirstJump;
+    private float coyoteTimeTimer;
+    public bool CoyoteTime => coyoteTimeTimer > 0;
+    #endregion
+
     #region UnityCallbacks
     private void Awake()
     {
@@ -57,11 +64,33 @@ public class Player : MonoBehaviour
     {
         return Physics2D.OverlapCircle(transform.position + playerData.GroundCheckOffset, playerData.GroundCheckRadius, playerData.PlatformLayer);
     }
+
+    public bool CheckJumpCounter()
+    {
+        if (jumpCount > 0) { return true; }
+        else { return false; }
+    }
     #endregion
+
+    #region Others
+    public void ResetJumpCounter() => jumpCount = playerData.JumpAmount;
+
+    public void DecreaseJumpCounter() => jumpCount--;
+
+    public void ResetCoyoteTime() => coyoteTimeTimer = playerData.CoyoteTimeDuration;
+
+    public void ClearCoyoteTime() => coyoteTimeTimer = 0f;
+
+    public void CoyoteTimeCountdown()
+    {
+        if (coyoteTimeTimer > 0) { coyoteTimeTimer -= Time.deltaTime; }
+        else { return; }
+    }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position + playerData.GroundCheckOffset, playerData.GroundCheckRadius);
     }
+    #endregion
 }

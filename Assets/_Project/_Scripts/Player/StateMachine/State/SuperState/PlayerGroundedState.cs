@@ -14,8 +14,14 @@ public abstract class PlayerGroundedState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.Animator.SetFloat("yVelocity", 0f);
+
         locomotion = player.Locomotion;
         inputHandler = player.InputHandler;
+
+        player.isFirstJump = true;
+        player.ResetJumpCounter();
+        player.ResetCoyoteTime();
     }
 
     public override void Exit()
@@ -27,12 +33,13 @@ public abstract class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        if (inputHandler.JumpInput)
+        if (inputHandler.JumpInput && player.CheckJumpCounter())
         {
             stateMachine.ChangeState(player.JumpState);
         }
         else if (!player.CheckIfGrounded())
         {
+            //player.DecreaseJumpCounter();
             stateMachine.ChangeState(player.InAirState);
         }
     }

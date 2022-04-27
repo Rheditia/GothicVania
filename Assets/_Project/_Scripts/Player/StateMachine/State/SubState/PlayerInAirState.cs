@@ -27,8 +27,20 @@ public class PlayerInAirState : PlayerState
     {
         base.LogicUpdate();
         player.Animator.SetFloat("yVelocity", Mathf.Clamp(player.Locomotion.VerticalVelocity, -1f, 1f));
+        
+        player.CoyoteTimeCountdown();
+        // decrease the jump counter if the player miss the coyote time and registered it as if already jump once
+        if (!player.CoyoteTime && player.isFirstJump)
+        {
+            player.DecreaseJumpCounter();
+            player.isFirstJump = false;
+        }
 
-        if (player.CheckIfGrounded())
+        if (inputHandler.JumpInput && player.CheckJumpCounter())
+        {            
+            stateMachine.ChangeState(player.JumpState);
+        }
+        else if (player.CheckIfGrounded())
         {
             if (Mathf.Abs(inputHandler.MoveInput.x) > Mathf.Epsilon) { stateMachine.ChangeState(player.MoveState); }
             else if (Mathf.Abs(inputHandler.MoveInput.x) < Mathf.Epsilon) { stateMachine.ChangeState(player.IdleState); }

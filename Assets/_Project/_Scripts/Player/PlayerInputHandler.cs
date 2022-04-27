@@ -11,7 +11,10 @@ public class PlayerInputHandler : MonoBehaviour
     InputAction jumpAction;
 
     public Vector2 MoveInput { get; private set; }
-    public bool JumpInput { get; private set; }
+
+    public bool JumpInput => jumpBufferTimer > 0;
+    [SerializeField] float jumpBufferDuration = 0.2f;
+    private float jumpBufferTimer = 0f;
 
     private void Awake()
     {
@@ -40,6 +43,11 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction.canceled -= OnJumpInput;
     }
 
+    private void Update()
+    {
+        JumpBufferCountdown();
+    }
+
     private void OnMoveInput(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
@@ -48,7 +56,14 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void OnJumpInput(InputAction.CallbackContext context)
     {
-        JumpInput = context.ReadValue<float>() == 1;
-        //Debug.Log(JumpInput);
+        if(context.ReadValue<float>() == 1) { jumpBufferTimer = jumpBufferDuration; }
     }
+
+    private void JumpBufferCountdown()
+    {
+        if (jumpBufferTimer > 0) { jumpBufferTimer -= Time.deltaTime; }
+        else { return; }
+    }
+
+    public void ClearJumpBuffer() => jumpBufferTimer = 0f;
 }

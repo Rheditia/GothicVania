@@ -31,14 +31,17 @@ public class PlayerAbilityState : PlayerState
     {
         base.LogicUpdate();
 
-        if (player.CheckIfGrounded())
+        if (isAbilityDone)
         {
-            if(Mathf.Abs(inputHandler.MoveInput.x) > Mathf.Epsilon) { stateMachine.ChangeState(player.MoveState); }
-            else if(Mathf.Abs(inputHandler.MoveInput.x) < Mathf.Epsilon) { stateMachine.ChangeState(player.IdleState); }
-        }
-        else if(!player.CheckIfGrounded() && isAbilityDone)
-        {
-            stateMachine.ChangeState(player.InAirState);
+            if (player.CheckIfGrounded())
+            {
+                if (Mathf.Abs(inputHandler.MoveInput.x) > Mathf.Epsilon) { stateMachine.ChangeState(player.MoveState); }
+                else if (Mathf.Abs(inputHandler.MoveInput.x) < Mathf.Epsilon) { stateMachine.ChangeState(player.IdleState); }
+            }
+            else if (!player.CheckIfGrounded())
+            {
+                stateMachine.ChangeState(player.InAirState);
+            }
         }
     }
 

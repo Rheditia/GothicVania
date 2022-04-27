@@ -11,6 +11,12 @@ public class PlayerJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+
+        inputHandler.ClearJumpBuffer();
+        player.DecreaseJumpCounter();
+        player.ClearCoyoteTime();
+        player.isFirstJump = false;
+
         locomotion.SetVerticalVelocity(playerData.JumpSpeed);
         isAbilityDone = true;
     }
