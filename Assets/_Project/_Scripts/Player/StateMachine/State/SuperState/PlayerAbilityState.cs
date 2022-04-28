@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAbilityState : PlayerState
+public abstract class PlayerAbilityState : PlayerState
 {
     protected PlayerInputHandler inputHandler;
     protected PlayerLocomotion locomotion;

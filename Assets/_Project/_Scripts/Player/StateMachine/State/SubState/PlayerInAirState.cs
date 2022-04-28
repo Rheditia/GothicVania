@@ -29,6 +29,8 @@ public class PlayerInAirState : PlayerState
         player.Animator.SetFloat("yVelocity", Mathf.Clamp(player.Locomotion.VerticalVelocity, -1f, 1f));
         
         player.CoyoteTimeCountdown();
+        player.WallJumpDelayCountdown();
+
         // decrease the jump counter if the player miss the coyote time and registered it as if already jump once
         if (!player.CoyoteTime && player.isFirstJump)
         {
@@ -45,11 +47,16 @@ public class PlayerInAirState : PlayerState
             if (Mathf.Abs(inputHandler.MoveInput.x) > Mathf.Epsilon) { stateMachine.ChangeState(player.MoveState); }
             else if (Mathf.Abs(inputHandler.MoveInput.x) < Mathf.Epsilon) { stateMachine.ChangeState(player.IdleState); }
         }
+        else if(player.CheckIfTouchingWall() && (Mathf.Round(inputHandler.MoveInput.x) == player.transform.localScale.x) && locomotion.VerticalVelocity <= 0)
+        {
+            stateMachine.ChangeState(player.WallSlideState);
+        }
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (player.WallJumpDelay) { return; }
         locomotion.SetHorizontalVelocity(playerData.MoveSpeed, inputHandler.MoveInput.x);
     }
 }

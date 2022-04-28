@@ -12,12 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e4409ca1b12c48a377f96a27825d3, type: 3}
   m_Name: BaseData
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 7
   jumpSpeed: 15
   jumpAmount: 2
   coyoteTimeDuration: 0.2
+  wallSlideYVelocity: -3
+  wallJumpXVelocity: 7
+  wallJumpDelayDuration: 0.15
   groundCheckRadius: 0.4
   groundCheckOffset: {x: 0, y: -1.375, z: 0}
   platformLayer:
     serializedVersion: 2
     m_Bits: 64
+  wallCheckRadius: 0.2
+  wallCheckOffset: {x: 0.5, y: 0, z: 0}

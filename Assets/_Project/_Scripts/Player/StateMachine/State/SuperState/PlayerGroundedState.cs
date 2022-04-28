@@ -22,6 +22,7 @@ public abstract class PlayerGroundedState : PlayerState
         player.isFirstJump = true;
         player.ResetJumpCounter();
         player.ResetCoyoteTime();
+        player.ClearWallJumpDelay();
     }
 
     public override void Exit()

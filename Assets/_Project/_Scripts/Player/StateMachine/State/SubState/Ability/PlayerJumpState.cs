@@ -15,6 +15,8 @@ public class PlayerJumpState : PlayerAbilityState
         inputHandler.ClearJumpBuffer();
         player.DecreaseJumpCounter();
         player.ClearCoyoteTime();
+
+        if (!player.isFirstJump) { player.ClearWallJumpDelay(); }
         player.isFirstJump = false;
 
         locomotion.SetVerticalVelocity(playerData.JumpSpeed);

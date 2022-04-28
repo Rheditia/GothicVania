@@ -10,17 +10,29 @@ public class PlayerDataSO : ScriptableObject
     [SerializeField] float jumpSpeed = 0f;
     [SerializeField] int jumpAmount = 1;
     [SerializeField] float coyoteTimeDuration = 0.2f;
+    [SerializeField] float wallSlideYVelocity = 0f;
+    [SerializeField] float wallJumpXVelocity = 0f;
+    [SerializeField] float wallJumpDelayDuration = 0f;
 
     [Header("Checks")]
     [SerializeField] float groundCheckRadius = 0f;
     [SerializeField] Vector3 groundCheckOffset;
     [SerializeField] LayerMask platformLayer;
+    [SerializeField] float wallCheckRadius = 0f;
+    [SerializeField] Vector3 wallCheckOffset;
 
     public float MoveSpeed => moveSpeed;
     public float JumpSpeed => jumpSpeed;
     public int JumpAmount => jumpAmount;
     public float CoyoteTimeDuration => coyoteTimeDuration;
+    public float WallSlideYVelocity => wallSlideYVelocity;
+    public float WallJumpXVelocity => wallJumpXVelocity;
+    public float WallJumpDelayDuration => wallJumpDelayDuration;
+
+
     public float GroundCheckRadius => groundCheckRadius;
     public Vector3 GroundCheckOffset => groundCheckOffset;
     public LayerMask PlatformLayer => platformLayer;
+    public float WallCheckRadius => wallCheckRadius;
+    public Vector3 WallCheckOffset => wallCheckOffset;
 }
