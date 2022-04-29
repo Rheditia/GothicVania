@@ -13,6 +13,10 @@ public class PlayerDataSO : ScriptableObject
     [SerializeField] float wallSlideYVelocity = 0f;
     [SerializeField] float wallJumpXVelocity = 0f;
     [SerializeField] float wallJumpDelayDuration = 0f;
+    [SerializeField] float dashXVelocity = 0f;
+    [SerializeField] float dashDuration = 0.5f;
+    [SerializeField] int dashAmount = 1;
+    [SerializeField] float delayBetweenDash = 0.5f;
 
     [Header("Checks")]
     [SerializeField] float groundCheckRadius = 0f;
@@ -28,6 +32,10 @@ public class PlayerDataSO : ScriptableObject
     public float WallSlideYVelocity => wallSlideYVelocity;
     public float WallJumpXVelocity => wallJumpXVelocity;
     public float WallJumpDelayDuration => wallJumpDelayDuration;
+    public float DashXVelocity => dashXVelocity;
+    public float DashDuration => dashDuration;
+    public int DashAmount => dashAmount;
+    public float DelayBetweenDash => delayBetweenDash;
 
 
     public float GroundCheckRadius => groundCheckRadius;

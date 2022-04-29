@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWallSlide : PlayerAbilityState
+public class PlayerWallSlideState : PlayerAbilityState
 {
-    public PlayerWallSlide(Player player, PlayerStateMachine stateMachine, PlayerDataSO playerData, string animationBool) : base(player, stateMachine, playerData, animationBool)
+    public PlayerWallSlideState(Player player, PlayerStateMachine stateMachine, PlayerDataSO playerData, string animationBool) : base(player, stateMachine, playerData, animationBool)
     {
     }
 
@@ -12,6 +12,7 @@ public class PlayerWallSlide : PlayerAbilityState
     {
         base.Enter();
         player.ResetJumpCounter();
+        player.ResetDashCounter();
         player.ClearWallJumpDelay();
     }
 
@@ -22,7 +23,7 @@ public class PlayerWallSlide : PlayerAbilityState
 
     public override void LogicUpdate()
     {
-        if (!player.CheckIfTouchingWall() || player.CheckIfGrounded()) 
+        if (!player.CheckIfTouchingWall() || player.CheckIfGrounded())
         {
             player.DecreaseJumpCounter();
             isAbilityDone = true;
@@ -34,6 +35,11 @@ public class PlayerWallSlide : PlayerAbilityState
             player.isFirstJump = true;
             locomotion.SetHorizontalVelocity(playerData.WallJumpXVelocity, -player.transform.localScale.x);
             stateMachine.ChangeState(player.JumpState);
+        }
+        else if (inputHandler.DashInput && player.CheckDashCounter())
+        {
+            //locomotion.SetHorizontalVelocity(playerData.DashXVelocity, -player.transform.localScale.x);
+            stateMachine.ChangeState(player.DashState);
         }
 
         base.LogicUpdate();

@@ -9,8 +9,13 @@ public class PlayerInputHandler : MonoBehaviour
     PlayerInput input;
     InputAction moveAction;
     InputAction jumpAction;
+    InputAction dashAction;
 
     public Vector2 MoveInput { get; private set; }
+
+    public bool DashInput => dashBufferTimer > 0;
+    [SerializeField] float dashBufferDuration = 0.2f;
+    private float dashBufferTimer = 0f;
 
     public bool JumpInput => jumpBufferTimer > 0;
     [SerializeField] float jumpBufferDuration = 0.2f;
@@ -21,6 +26,7 @@ public class PlayerInputHandler : MonoBehaviour
         input = GetComponent<PlayerInput>();
         moveAction = input.actions["Move"];
         jumpAction = input.actions["Jump"];
+        dashAction = input.actions["dash"];
     }
 
     private void OnEnable()
@@ -31,6 +37,9 @@ public class PlayerInputHandler : MonoBehaviour
 
         jumpAction.started += OnJumpInput;
         jumpAction.canceled += OnJumpInput;
+
+        dashAction.started += OnDashInput;
+        dashAction.canceled += OnDashInput;
     }
 
     private void OnDisable()
@@ -41,17 +50,20 @@ public class PlayerInputHandler : MonoBehaviour
 
         jumpAction.started -= OnJumpInput;
         jumpAction.canceled -= OnJumpInput;
+
+        dashAction.started -= OnDashInput;
+        dashAction.canceled -= OnDashInput;
     }
 
     private void Update()
     {
         JumpBufferCountdown();
+        DashBufferCountdown();
     }
 
     private void OnMoveInput(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
-        //Debug.Log(MoveInput);
     }
 
     private void OnJumpInput(InputAction.CallbackContext context)
@@ -66,4 +78,17 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     public void ClearJumpBuffer() => jumpBufferTimer = 0f;
+
+    private void OnDashInput(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() == 1) { dashBufferTimer = dashBufferDuration; }
+    }
+
+    private void DashBufferCountdown()
+    {
+        if (dashBufferTimer > 0) { dashBufferTimer -= Time.deltaTime; }
+        else { return; }
+    }
+
+    public void ClearDashBuffer() => dashBufferTimer = 0f;
 }

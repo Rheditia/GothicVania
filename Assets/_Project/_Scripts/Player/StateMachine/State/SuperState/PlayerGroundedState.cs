@@ -21,8 +21,10 @@ public abstract class PlayerGroundedState : PlayerState
 
         player.isFirstJump = true;
         player.ResetJumpCounter();
+        player.ResetDashCounter();
         player.ResetCoyoteTime();
         player.ClearWallJumpDelay();
+        inputHandler.ClearDashBuffer();
     }
 
     public override void Exit()
@@ -34,6 +36,8 @@ public abstract class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
+        player.DashDelayCountdown();
+
         if (inputHandler.JumpInput && player.CheckJumpCounter())
         {
             stateMachine.ChangeState(player.JumpState);
@@ -42,6 +46,10 @@ public abstract class PlayerGroundedState : PlayerState
         {
             //player.DecreaseJumpCounter();
             stateMachine.ChangeState(player.InAirState);
+        }
+        else if (inputHandler.DashInput && !player.DashDelay)
+        {
+            stateMachine.ChangeState(player.DashState);
         }
     }
 

@@ -3472,7 +3472,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1611352982}
   - component: {fileID: 1611352984}
-  - component: {fileID: 1611352983}
   - component: {fileID: 1611352990}
   - component: {fileID: 1611352988}
   - component: {fileID: 1611352987}
@@ -3501,22 +3500,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &1611352983
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1611352981}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2.75}
-  m_Direction: 0
 --- !u!50 &1611352984
 Rigidbody2D:
   serializedVersion: 4
@@ -3562,6 +3545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7afabf6056bc4224087191cf89ffd1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashBufferDuration: 0.2
   jumpBufferDuration: 0.2
 --- !u!114 &1611352987
 MonoBehaviour:
@@ -5275,7 +5259,7 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 1
+  m_XDamping: 0.5
   m_YDamping: 1
   m_ZDamping: 1
   m_TargetMovementOnly: 1

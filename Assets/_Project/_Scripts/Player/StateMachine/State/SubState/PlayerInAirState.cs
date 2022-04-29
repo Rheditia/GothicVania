@@ -16,6 +16,9 @@ public class PlayerInAirState : PlayerState
         base.Enter();
         inputHandler = player.InputHandler;
         locomotion = player.Locomotion;
+
+        inputHandler.ClearDashBuffer();
+        player.ClearDashDelay();
     }
 
     public override void Exit()
@@ -39,8 +42,13 @@ public class PlayerInAirState : PlayerState
         }
 
         if (inputHandler.JumpInput && player.CheckJumpCounter())
-        {            
+        {
             stateMachine.ChangeState(player.JumpState);
+        }
+        else if (inputHandler.DashInput && player.CheckDashCounter() && !player.WallJumpDelay)
+        {
+            locomotion.SetHorizontalVelocity(playerData.DashXVelocity, inputHandler.MoveInput.x);
+            stateMachine.ChangeState(player.DashState);
         }
         else if (player.CheckIfGrounded())
         {

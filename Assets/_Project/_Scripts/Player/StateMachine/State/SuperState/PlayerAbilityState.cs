@@ -19,6 +19,7 @@ public abstract class PlayerAbilityState : PlayerState
         inputHandler = player.InputHandler;
         locomotion = player.Locomotion;
 
+        player.ClearDashDelay();
         isAbilityDone = false;
     }
 
