@@ -31,5 +31,11 @@ public class PlayerLocomotion : MonoBehaviour
         Vector2 newVelocity = new Vector2(myRigidbody.velocity.x, velocity);
         myRigidbody.velocity = newVelocity;
     }
+
+    public void SetDeathKnockback(Vector2 deathImpact)
+    {
+        myRigidbody.velocity = deathImpact;
+    }
+
     public float VerticalVelocity => myRigidbody.velocity.y;
 }

@@ -44,7 +44,6 @@ public abstract class PlayerGroundedState : PlayerState
         }
         else if (!player.CheckIfGrounded())
         {
-            //player.DecreaseJumpCounter();
             stateMachine.ChangeState(player.InAirState);
         }
         else if (inputHandler.DashInput && !player.DashDelay)

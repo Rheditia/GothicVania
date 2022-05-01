@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     public PlayerDashState DashState { get; private set; }
     // Miscellaneous
     public PlayerInAirState InAirState { get; private set; }
+    public PlayerDieState DieState { get; private set; }
     #endregion
 
     #region Component
     [SerializeField] PlayerDataSO playerData;
     public Animator Animator { get; private set; }
+    private BoxCollider2D myCollider;
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerLocomotion Locomotion { get; private set; }
     #endregion
@@ -27,6 +29,8 @@ public class Player : MonoBehaviour
     #region Variables
     private int jumpCount;
     public bool isFirstJump;
+    public bool IsAlive { get; private set; }
+    public Vector2 DeathImpact { get; private set; }
 
     private int dashCount;
     private float dashTimeTimer;
@@ -46,6 +50,7 @@ public class Player : MonoBehaviour
     {
         StateMachine = new PlayerStateMachine();
         Animator = GetComponent<Animator>();
+        myCollider = GetComponent<BoxCollider2D>();
         InputHandler = GetComponent<PlayerInputHandler>();
         Locomotion = GetComponent<PlayerLocomotion>();
 
@@ -55,10 +60,12 @@ public class Player : MonoBehaviour
         WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wall");
         DashState = new PlayerDashState(this, StateMachine, playerData, "dash");
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
+        DieState = new PlayerDieState(this, StateMachine, playerData, "die");
     }
 
     private void Start()
     {
+        IsAlive = true;
         StateMachine.InitializeState(IdleState);
     }
 
@@ -71,6 +78,16 @@ public class Player : MonoBehaviour
     {
         StateMachine.CurrentState.PhysicsUpdate();
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy") || collision.gameObject.layer == LayerMask.NameToLayer("Hazard"))
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer, collision.gameObject.layer);
+            DeathImpact = DeathImpactDirection(collision.gameObject) * playerData.DeathImpactSpeed;
+            IsAlive = false;
+        }
+    }
     #endregion
 
     #region Condition Checks
@@ -78,11 +95,8 @@ public class Player : MonoBehaviour
     {
         return Physics2D.OverlapCircle(transform.position + playerData.GroundCheckOffset, playerData.GroundCheckRadius, playerData.PlatformLayer);
     }
-
     public bool CheckJumpCounter() => jumpCount > 0;
     public bool CheckDashCounter() => dashCount > 0;
-
-
     public bool CheckIfTouchingWall()
     {
         return Physics2D.OverlapCircle(transform.position + (playerData.WallCheckOffset * transform.localScale.x), playerData.WallCheckRadius, playerData.PlatformLayer);
@@ -119,13 +133,25 @@ public class Player : MonoBehaviour
         else { return; }
     }
 
-    //Wall Jump
+    // Wall Jump
     public void ResetWallJumpDelay() => wallJumpDelayTimer = playerData.WallJumpDelayDuration;
     public void ClearWallJumpDelay() => wallJumpDelayTimer = 0f;
     public void WallJumpDelayCountdown()
     {
         if (wallJumpDelayTimer > 0) { wallJumpDelayTimer -= Time.deltaTime; }
         else { return; }
+    }
+
+    // Die
+    public Vector2 DeathImpactDirection(GameObject killer)
+    {
+        Vector2 direction = transform.position - killer.transform.position;
+        return direction.normalized;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject, playerData.DelayBeforeDestroyed);
     }
 
     private void OnDrawGizmos()

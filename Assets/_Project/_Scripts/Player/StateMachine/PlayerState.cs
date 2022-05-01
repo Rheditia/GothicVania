@@ -25,7 +25,10 @@ public abstract class PlayerState
 
     public virtual void LogicUpdate()
     {
-
+        if (!player.IsAlive)
+        {
+            stateMachine.ChangeState(player.DieState);
+        }
     }
 
     public virtual void PhysicsUpdate()

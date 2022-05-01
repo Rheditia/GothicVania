@@ -20,10 +20,14 @@ public class PlayerDataSO : ScriptableObject
 
     [Header("Checks")]
     [SerializeField] float groundCheckRadius = 0f;
-    [SerializeField] Vector3 groundCheckOffset;
+    [SerializeField] Vector2 groundCheckOffset;
     [SerializeField] LayerMask platformLayer;
     [SerializeField] float wallCheckRadius = 0f;
-    [SerializeField] Vector3 wallCheckOffset;
+    [SerializeField] Vector2 wallCheckOffset;
+
+    [Header("Death")]
+    [SerializeField] float deathImpactSpeed = 0f;
+    [SerializeField] float delayBeforeDestroyed = 0.1f;
 
     public float MoveSpeed => moveSpeed;
     public float JumpSpeed => jumpSpeed;
@@ -43,4 +47,8 @@ public class PlayerDataSO : ScriptableObject
     public LayerMask PlatformLayer => platformLayer;
     public float WallCheckRadius => wallCheckRadius;
     public Vector3 WallCheckOffset => wallCheckOffset;
+
+
+    public float DeathImpactSpeed => deathImpactSpeed;
+    public float DelayBeforeDestroyed => delayBeforeDestroyed;
 }

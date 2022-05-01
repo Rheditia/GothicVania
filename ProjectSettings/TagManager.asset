@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -12,9 +14,9 @@ TagManager:
   - Water
   - UI
   - Platform
-  - 
-  - 
-  - 
+  - Enemy
+  - Hazard
+  - Player
   - 
   - 
   - 
@@ -43,6 +45,9 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 3893667631
+    locked: 0
+  - name: Enemy
+    uniqueID: 2519537295
     locked: 0
   - name: Player
     uniqueID: 3426930379
